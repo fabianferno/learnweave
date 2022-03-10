@@ -1,12 +1,19 @@
 import React from "react";
+import Head from 'next/head';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { WebBundlr } from "@bundlr-network/client";
 import BigNumber from "bignumber.js";
-import { Button } from "@chakra-ui/button";
+//import { Button } from "@chakra-ui/button";
 import {
+  createIcon,
   Input,
   HStack,
+  List,
+  ListItem,
+  ListIcon,
+  Heading,
   Text,
+  Button,
   VStack,
   useToast,
   Menu,
@@ -14,8 +21,30 @@ import {
   MenuList,
   MenuItem,
   Tooltip,
+  Box,
+  Container,
+  Link,
+  SimpleGrid,
+  Stack,
+  Flex,
+  Image,
+  Tag,
+  useColorModeValue,
+  StackDivider,
+  Icon,
+  IconButton,
+  MenuDivider,
+  useDisclosure,
+
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+  IoAnalyticsSharp,
+  IoLogoBitcoin,
+  IoSearchSharp,
+} from 'react-icons/io5';
+import { ReactNode ,ReactElement} from 'react';
+import { HamburgerIcon, CloseIcon, ChevronDownIcon} from "@chakra-ui/icons";
+import {FaCheckCircle} from 'react-icons/fa';
 
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { providers } from "ethers";
@@ -399,7 +428,27 @@ function App() {
         .catch((_) => clearInterval(intervalRef.current));
     }, 5000);
   };
+  const ListHeader = ({ children }: { children: ReactNode }) => {
+    return (
+      <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
+        {children}
+      </Text>
+    );
+  };
 
+  function PriceWrapper({ children }: { children: ReactNode }) {
+    return (
+      <Box
+        mb={4}
+        shadow="base"
+        borderWidth="1px"
+        alignSelf={{ base: 'center', lg: 'flex-start' }}
+        borderColor={useColorModeValue('gray.200', 'gray.500')}
+        borderRadius={'xl'}>
+        {children}
+      </Box>
+    );
+  }
   // parse decimal input into atomic units
   const parseInput = (input: string | number) => {
     const conv = new BigNumber(input).multipliedBy(
@@ -411,57 +460,232 @@ function App() {
     }
     return conv;
   };
+  interface FeatureProps {
+    text: string;
+    iconBg: string;
+    icon?: ReactElement;
+  }
+  
+  const Feature = ({ text, icon, iconBg }: FeatureProps) => {
+    return (
+      <Stack direction={'row'} align={'center'}>
+        <Flex
+          w={8}
+          h={8}
+          align={'center'}
+          justify={'center'}
+          rounded={'full'}
+          bg={iconBg}>
+          {icon}
+        </Flex>
+        <Text fontWeight={600}>{text}</Text>
+      </Stack>
+    );
+  };
+  const Arrow = createIcon({
+    displayName: 'Arrow',
+    viewBox: '0 0 72 24',
+    path: (
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M0.600904 7.08166C0.764293 6.8879 1.01492 6.79004 1.26654 6.82177C2.83216 7.01918 5.20326 7.24581 7.54543 7.23964C9.92491 7.23338 12.1351 6.98464 13.4704 6.32142C13.84 6.13785 14.2885 6.28805 14.4722 6.65692C14.6559 7.02578 14.5052 7.47362 14.1356 7.6572C12.4625 8.48822 9.94063 8.72541 7.54852 8.7317C5.67514 8.73663 3.79547 8.5985 2.29921 8.44247C2.80955 9.59638 3.50943 10.6396 4.24665 11.7384C4.39435 11.9585 4.54354 12.1809 4.69301 12.4068C5.79543 14.0733 6.88128 15.8995 7.1179 18.2636C7.15893 18.6735 6.85928 19.0393 6.4486 19.0805C6.03792 19.1217 5.67174 18.8227 5.6307 18.4128C5.43271 16.4346 4.52957 14.868 3.4457 13.2296C3.3058 13.0181 3.16221 12.8046 3.01684 12.5885C2.05899 11.1646 1.02372 9.62564 0.457909 7.78069C0.383671 7.53862 0.437515 7.27541 0.600904 7.08166ZM5.52039 10.2248C5.77662 9.90161 6.24663 9.84687 6.57018 10.1025C16.4834 17.9344 29.9158 22.4064 42.0781 21.4773C54.1988 20.5514 65.0339 14.2748 69.9746 0.584299C70.1145 0.196597 70.5427 -0.0046455 70.931 0.134813C71.3193 0.274276 71.5206 0.70162 71.3807 1.08932C66.2105 15.4159 54.8056 22.0014 42.1913 22.965C29.6185 23.9254 15.8207 19.3142 5.64226 11.2727C5.31871 11.0171 5.26415 10.5479 5.52039 10.2248Z"
+        fill="currentColor"
+      />
+    ),
+  });
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  
 
   return (
-    <section className="bg-dark vh-100">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <a className="navbar-brand fw-bold" href="/">
-            <span className="d-flex align-items-center justify-content-center">
-              <img
-                src="android-chrome-192x192.png"
-                alt="Logo"
-                style={{ height: "70px" }}
+    
+    <section className=" vh-100">
+      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+        <Flex h={20} alignItems={'center'} justifyContent={'space-between'}>
+          <IconButton
+            size={'md'}
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label={'Open Menu'}
+            display={{ md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+          <HStack spacing={4} alignItems={'center'}>
+          <Image  src="android-chrome-192x192.png"
+                alt="Logo" boxSize='70px'></Image>
+                <Text
+                as="b"
+                fontSize='2xl'
+            color="black">
+            Perma Books
+          </Text>
+            <HStack
+              as={'nav'}
+              spacing={4}
+              display={{ base: 'none', md: 'flex' }}>
+              <Link px={2} py={1} rounded={'md'} href={'#'}>Home</Link>
+              <Link px={2} py={1} rounded={'md'} href={'#'}>Features</Link>
+              <Link px={2} py={1} rounded={'md'} href={'#'}>Pricing</Link>
+              <Link px={2} py={1} rounded={'md'} href={'#'}>Contact</Link>
+            </HStack>
+          </HStack>
+          <Flex alignItems={'center'}>
+            <Menu>
+              
+              <MenuList>
+                <MenuItem>Link 1</MenuItem>
+                <MenuItem>Link 2</MenuItem>
+                <MenuDivider />
+                <MenuItem>Link 3</MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
+        </Flex>
+
+        {isOpen ? (
+          <Box pb={4} display={{ md: 'none' }}>
+            <Stack as={'nav'} spacing={4}>
+            <Link px={2} py={1} rounded={'md'} href={'#'}>Home</Link>
+              <Link px={2} py={1} rounded={'md'} href={'#'}>Features</Link>
+              <Link px={2} py={1} rounded={'md'} href={'#'}>Pricing</Link>
+              <Link px={2} py={1} rounded={'md'} href={'#'}>Contact</Link>
+            </Stack>
+          </Box>
+        ) : null}
+      </Box>
+     
+      
+      <>
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+
+      <Container maxW={'3xl'}>
+        <Stack
+          as={Box}
+          textAlign={'center'}
+          spacing={{ base: 8, md: 14 }}
+          py={{ base: 20, md: 36 }}>
+          <Heading
+            fontWeight={600}
+            fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
+            lineHeight={'110%'}>
+            Make money from <br />
+            <Text as={'span'} color={'green.400'}>
+              your audience
+            </Text>
+          </Heading>
+          <Text color={'gray.500'}>
+            Monetize your content by charging your most loyal readers and reward
+            them loyalty points. Give back to your loyal readers by granting
+            them access to your pre-releases and sneak-peaks.
+          </Text>
+          <Stack
+            direction={'column'}
+            spacing={3}
+            align={'center'}
+            alignSelf={'center'}
+            position={'relative'}>
+            <Button
+              colorScheme={'green'}
+              bg={'green.400'}
+              rounded={'full'}
+              px={6}
+              _hover={{
+                bg: 'green.500',
+              }}>
+              Get Started
+            </Button>
+            <Button variant={'link'} colorScheme={'blue'} size={'sm'}>
+              Learn more
+            </Button>
+            <Box>
+              <Icon
+                as={Arrow}
+                color={useColorModeValue('gray.800', 'gray.300')}
+                w={71}
+                position={'absolute'}
+                right={-71}
+                top={'10px'}
               />
-              <h1 className="ps-2">Perma Books</h1>
-            </span>
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarText"
-            aria-controls="navbarText"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="collapse navbar-collapse" id="navbarText">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">
-                  Features
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">
-                  Pricing
-                </a>
-              </li>
-            </ul>
-            <span className="navbar-text">
-              Navbar text with an inline element
-            </span>
-          </div>
-        </div>
-      </nav>
-      <VStack pt={20}>
+              <Text
+                fontSize={'lg'}
+                fontFamily={'Caveat'}
+                position={'absolute'}
+                right={'-125px'}
+                top={'-15px'}
+                transform={'rotate(10deg)'}>
+                Starting at $15/mo
+              </Text>
+            </Box>
+          </Stack>
+        </Stack>
+      </Container>
+    </>
+
+
+      <Container id="feature" maxW={'5xl'} py={12}>
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+        <Stack spacing={4}>
+          <Text
+            textTransform={'uppercase'}
+            color={'blue.400'}
+            fontWeight={600}
+            fontSize={'sm'}
+            bg={useColorModeValue('blue.50', 'blue.900')}
+            p={2}
+            alignSelf={'flex-start'}
+            rounded={'md'}>
+            Features
+          </Text>
+          <Heading>Decentralized Literature Archival made simple.</Heading>
+          <Text color={'gray.500'} fontSize={'lg'}>
+            Archive any file permanently in remote nodes and retrieve them instantly
+          </Text>
+          <Stack
+            spacing={4}
+            divider={
+              <StackDivider
+                borderColor={useColorModeValue('gray.100', 'gray.700')}
+              />
+            }>
+            <Feature
+              icon={
+                <Icon as={IoAnalyticsSharp} color={'yellow.500'} w={5} h={5} />
+              }
+              iconBg={useColorModeValue('yellow.100', 'yellow.900')}
+              text={'Literature / Books'}
+            />
+            <Feature
+              icon={<Icon as={IoLogoBitcoin} color={'green.500'} w={5} h={5} />}
+              iconBg={useColorModeValue('green.100', 'green.900')}
+              text={'Important Documents'}
+            />
+            <Feature
+              icon={
+                <Icon as={IoSearchSharp} color={'purple.500'} w={5} h={5} />
+              }
+              iconBg={useColorModeValue('purple.100', 'purple.900')}
+              text={'Resource Materials'}
+            />
+          </Stack>
+        </Stack>
+        <Flex>
+          <Image
+            rounded={'md'}
+            alt={'feature image'}
+            src="features.jpg"
+            objectFit={'cover'}
+          />
+        </Flex>
+      </SimpleGrid>
+    </Container>
+
+
+      <Box pt={20}>
+      <VStack >
         <HStack>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -527,6 +751,7 @@ function App() {
             Connect to Bundlr
           </Button>
           <Input
+           color='grey'
             value={bundlerHttpAddress}
             onChange={updateAddress}
             placeholder="Bundler Address"
@@ -598,6 +823,253 @@ function App() {
           </>
         )}
       </VStack>
+      </Box>
+      <Box id="pricing" mt={80}>
+      <VStack spacing={2} textAlign="center">
+        <Heading as="h1" fontSize="4xl">
+          Plans that fit your need
+        </Heading>
+        <Text fontSize="lg" color={'gray.500'}>
+          Start with 14-day free trial. No credit card needed. Cancel at
+          anytime.
+        </Text>
+      </VStack>
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        textAlign="center"
+        justify="center"
+        spacing={{ base: 4, lg: 10 }}
+        py={10}>
+        <PriceWrapper>
+          <Box py={4} px={12}>
+            <Text fontWeight="500" fontSize="2xl">
+              Hobby
+            </Text>
+            <HStack justifyContent="center">
+              <Text fontSize="3xl" fontWeight="600">
+                $
+              </Text>
+              <Text fontSize="5xl" fontWeight="900">
+                79
+              </Text>
+              <Text fontSize="3xl" color="gray.500">
+                /month
+              </Text>
+            </HStack>
+          </Box>
+          <VStack
+            bg={useColorModeValue('gray.50', 'gray.700')}
+            py={4}
+            borderBottomRadius={'xl'}>
+            <List spacing={3} textAlign="start" px={12}>
+              <ListItem>
+                <ListIcon as={FaCheckCircle} color="green.500" />
+                unlimited build minutes
+              </ListItem>
+              <ListItem>
+                <ListIcon as={FaCheckCircle} color="green.500" />
+                Lorem, ipsum dolor.
+              </ListItem>
+              <ListItem>
+                <ListIcon as={FaCheckCircle} color="green.500" />
+                5TB Lorem, ipsum dolor.
+              </ListItem>
+            </List>
+            <Box w="80%" pt={7}>
+              <Button w="full" colorScheme="red" variant="outline">
+                Start trial
+              </Button>
+            </Box>
+          </VStack>
+        </PriceWrapper>
+
+        <PriceWrapper>
+          <Box position="relative">
+            <Box
+              position="absolute"
+              top="-16px"
+              left="50%"
+              style={{ transform: 'translate(-50%)' }}>
+              <Text
+                textTransform="uppercase"
+                bg={useColorModeValue('red.300', 'red.700')}
+                px={3}
+                py={1}
+                color={useColorModeValue('gray.900', 'gray.300')}
+                fontSize="sm"
+                fontWeight="600"
+                rounded="xl">
+                Most Popular
+              </Text>
+            </Box>
+            <Box py={4} px={12}>
+              <Text fontWeight="500" fontSize="2xl">
+                Growth
+              </Text>
+              <HStack justifyContent="center">
+                <Text fontSize="3xl" fontWeight="600">
+                  $
+                </Text>
+                <Text fontSize="5xl" fontWeight="900">
+                  149
+                </Text>
+                <Text fontSize="3xl" color="gray.500">
+                  /month
+                </Text>
+              </HStack>
+            </Box>
+            <VStack
+              bg={useColorModeValue('gray.50', 'gray.700')}
+              py={4}
+              borderBottomRadius={'xl'}>
+              <List spacing={3} textAlign="start" px={12}>
+                <ListItem>
+                  <ListIcon as={FaCheckCircle} color="green.500" />
+                  unlimited build minutes
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={FaCheckCircle} color="green.500" />
+                  Lorem, ipsum dolor.
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={FaCheckCircle} color="green.500" />
+                  5TB Lorem, ipsum dolor.
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={FaCheckCircle} color="green.500" />
+                  5TB Lorem, ipsum dolor.
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={FaCheckCircle} color="green.500" />
+                  5TB Lorem, ipsum dolor.
+                </ListItem>
+              </List>
+              <Box w="80%" pt={7}>
+                <Button w="full" colorScheme="red">
+                  Start trial
+                </Button>
+              </Box>
+            </VStack>
+          </Box>
+        </PriceWrapper>
+        <PriceWrapper>
+          <Box py={4} px={12}>
+            <Text fontWeight="500" fontSize="2xl">
+              Scale
+            </Text>
+            <HStack justifyContent="center">
+              <Text fontSize="3xl" fontWeight="600">
+                $
+              </Text>
+              <Text fontSize="5xl" fontWeight="900">
+                349
+              </Text>
+              <Text fontSize="3xl" color="gray.500">
+                /month
+              </Text>
+            </HStack>
+          </Box>
+          <VStack
+            bg={useColorModeValue('gray.50', 'gray.700')}
+            py={4}
+            borderBottomRadius={'xl'}>
+            <List spacing={3} textAlign="start" px={12}>
+              <ListItem>
+                <ListIcon as={FaCheckCircle} color="green.500" />
+                unlimited build minutes
+              </ListItem>
+              <ListItem>
+                <ListIcon as={FaCheckCircle} color="green.500" />
+                Lorem, ipsum dolor.
+              </ListItem>
+              <ListItem>
+                <ListIcon as={FaCheckCircle} color="green.500" />
+                5TB Lorem, ipsum dolor.
+              </ListItem>
+            </List>
+            <Box w="80%" pt={7}>
+              <Button w="full" colorScheme="red" variant="outline">
+                Start trial
+              </Button>
+            </Box>
+          </VStack>
+        </PriceWrapper>
+      </Stack>
+    </Box>
+      <Box mt={10}
+      id="contact"
+      bg={useColorModeValue('gray.50', 'gray.900')}
+      color={useColorModeValue('gray.700', 'gray.200')}>
+      <Container as={Stack} maxW={'6xl'} py={10}>
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
+          <Stack align={'flex-start'}>
+            <ListHeader>Product</ListHeader>
+            <Link href={'#'}>Overview</Link>
+            <Stack direction={'row'} align={'center'} spacing={2}>
+              <Link href={'#'}>Features</Link>
+              <Tag
+                size={'sm'}
+                bg={useColorModeValue('green.300', 'green.800')}
+                ml={2}
+                color={'white'}>
+                New
+              </Tag>
+            </Stack>
+            <Link href={'#'}>Tutorials</Link>
+            <Link href={'#'}>Pricing</Link>
+            <Link href={'#'}>Releases</Link>
+          </Stack>
+          <Stack align={'flex-start'}>
+            <ListHeader>Company</ListHeader>
+            <Link href={'#'}>About Us</Link>
+            <Link href={'#'}>Press</Link>
+            <Link href={'#'}>Careers</Link>
+            <Link href={'#'}>Contact Us</Link>
+            <Link href={'#'}>Partners</Link>
+          </Stack>
+          <Stack align={'flex-start'}>
+            <ListHeader>Legal</ListHeader>
+            <Link href={'#'}>Cookies Policy</Link>
+            <Link href={'#'}>Privacy Policy</Link>
+            <Link href={'#'}>Terms of Service</Link>
+            <Link href={'#'}>Law Enforcement</Link>
+            <Link href={'#'}>Status</Link>
+          </Stack>
+          <Stack align={'flex-start'}>
+            <ListHeader>Follow Us</ListHeader>
+            <Link href={'#'}>Facebook</Link>
+            <Link href={'#'}>Twitter</Link>
+            <Link href={'#'}>Dribbble</Link>
+            <Link href={'#'}>Instagram</Link>
+            <Link href={'#'}>LinkedIn</Link>
+          </Stack>
+        </SimpleGrid>
+      </Container>
+      <Box py={10}>
+        <Flex
+          align={'center'}
+          _before={{
+            content: '""',
+            borderBottom: '1px solid',
+            borderColor: useColorModeValue('gray.200', 'gray.700'),
+            flexGrow: 1,
+            mr: 8,
+          }}
+          _after={{
+            content: '""',
+            borderBottom: '1px solid',
+            borderColor: useColorModeValue('gray.200', 'gray.700'),
+            flexGrow: 1,
+            ml: 8,
+          }}>
+          <Image  src="android-chrome-192x192.png"
+                alt="Logo" boxSize='100px'></Image>
+        </Flex>
+        <Text pt={6} fontSize={'sm'} textAlign={'center'}>
+          © 2022 Perma Books. All rights reserved
+        </Text>
+      </Box>
+    </Box>
     </section>
   );
 }
