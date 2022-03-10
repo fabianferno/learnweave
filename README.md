@@ -1,4 +1,4 @@
-# LitBooks
+# PermaBooks
 
 Built for Scholars - Upload Literature to the Arweave Chain for the Permaweb.
 
