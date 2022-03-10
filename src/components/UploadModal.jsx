@@ -46,17 +46,15 @@ export default function UploadModal(props) {
         motionPreset="scale"
       >
         {overlay}
-
         <ModalContent>
-          <ModalHeader>Upload to Arweave</ModalHeader>
+          <ModalHeader>Store Document to Arweave</ModalHeader>
           <ModalCloseButton />
           <ModalBody>{props.children}</ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button colorScheme="red" onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost">Secondary Action</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
