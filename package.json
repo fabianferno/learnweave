@@ -1,8 +1,8 @@
 {
-  "name": "bundlr-demo-app",
+  "name": "perma-books",
   "version": "0.1.0",
   "private": true,
-  "description": "A demo application that implements the Bundlr web client to allow for 3rd party injected signers such as those exposed by MetaMask and WalletConnect",
+  "description": "Perma-books is a dApp that provides permanent decentralized archival solution for publications, compositions, and literature. ",
   "homepage": "./",
   "dependencies": {
     "@babel/core": "7.12.3",
@@ -111,8 +111,6 @@
   },
   "browserslist": [
     ">0.2%",
-    "not ie <= 99",
-    "not android <= 4.4.4",
     "not dead",
     "not op_mini all"
   ],
