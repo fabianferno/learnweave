@@ -1,9 +1,8 @@
 import React from "react";
-import Head from 'next/head';
+import Head from "next/head";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { WebBundlr } from "@bundlr-network/client";
 import BigNumber from "bignumber.js";
-//import { Button } from "@chakra-ui/button";
 import {
   createIcon,
   Input,
@@ -35,16 +34,15 @@ import {
   IconButton,
   MenuDivider,
   useDisclosure,
-
 } from "@chakra-ui/react";
 import {
   IoAnalyticsSharp,
   IoLogoBitcoin,
   IoSearchSharp,
-} from 'react-icons/io5';
-import { ReactNode ,ReactElement} from 'react';
-import { HamburgerIcon, CloseIcon, ChevronDownIcon} from "@chakra-ui/icons";
-import {FaCheckCircle} from 'react-icons/fa';
+} from "react-icons/io5";
+import { ReactNode, ReactElement } from "react";
+import { HamburgerIcon, CloseIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { FaCheckCircle } from "react-icons/fa";
 
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { providers } from "ethers";
@@ -52,6 +50,7 @@ import { Web3Provider } from "@ethersproject/providers";
 //import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom"
 import * as nearAPI from "near-api-js";
 import { WalletConnection } from "near-api-js";
+import UploadModal from "./components/UploadModal";
 
 const { keyStores, connect } = nearAPI;
 
@@ -294,10 +293,10 @@ function App() {
   const ethProviders = ["MetaMask", "WalletConnect"];
 
   const currencyMap = {
-    solana: {
-      providers: ["Phantom"],
-      opts: {},
-    },
+    // solana: {
+    //   providers: ["Phantom"],
+    //   opts: {},
+    // },
     matic: {
       providers: ethProviders,
       opts: {
@@ -306,49 +305,49 @@ function App() {
         rpcUrls: ["https://polygon-rpc.com"],
       },
     },
-    arbitrum: {
-      providers: ethProviders,
-      opts: {
-        chainName: "Arbitrum One",
-        chainId: 42161,
-        rpcUrls: ["https://arb1.arbitrum.io/rpc"],
-      },
-    },
-    bnb: {
-      providers: ethProviders,
-      opts: {
-        chainName: "Binance Smart Chain",
-        chainId: 56,
-        rpcUrls: ["https://bsc-dataseed.binance.org/"],
-      },
-    },
-    avalanche: {
-      providers: ethProviders,
-      opts: {
-        chainName: "Avalanche Network",
-        chainId: 43114,
-        rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
-      },
-    },
-    boba: {
-      providers: ethProviders,
-      opts: {
-        chainName: "BOBA L2",
-        chainId: 288,
-        rpcUrls: ["https://mainnet.boba.network"],
-      },
-    },
-    near: {
-      providers: ["wallet.near.org"],
-      opts: {
-        networkId: "mainnet",
-        keyStore: new keyStores.BrowserLocalStorageKeyStore(),
-        nodeUrl: "https://rpc.mainnet.near.org",
-        walletUrl: "https://wallet.mainnet.near.org",
-        helperUrl: "https://helper.mainnet.near.org",
-        explorerUrl: "https://explorer.mainnet.near.org",
-      },
-    },
+    // arbitrum: {
+    //   providers: ethProviders,
+    //   opts: {
+    //     chainName: "Arbitrum One",
+    //     chainId: 42161,
+    //     rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+    //   },
+    // },
+    // bnb: {
+    //   providers: ethProviders,
+    //   opts: {
+    //     chainName: "Binance Smart Chain",
+    //     chainId: 56,
+    //     rpcUrls: ["https://bsc-dataseed.binance.org/"],
+    //   },
+    // },
+    // avalanche: {
+    //   providers: ethProviders,
+    //   opts: {
+    //     chainName: "Avalanche Network",
+    //     chainId: 43114,
+    //     rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
+    //   },
+    // },
+    // boba: {
+    //   providers: ethProviders,
+    //   opts: {
+    //     chainName: "BOBA L2",
+    //     chainId: 288,
+    //     rpcUrls: ["https://mainnet.boba.network"],
+    //   },
+    // },
+    // near: {
+    //   providers: ["wallet.near.org"],
+    //   opts: {
+    //     networkId: "mainnet",
+    //     keyStore: new keyStores.BrowserLocalStorageKeyStore(),
+    //     nodeUrl: "https://rpc.mainnet.near.org",
+    //     walletUrl: "https://wallet.mainnet.near.org",
+    //     helperUrl: "https://helper.mainnet.near.org",
+    //     explorerUrl: "https://explorer.mainnet.near.org",
+    //   },
+    // },
   } as any;
 
   /**
@@ -430,7 +429,7 @@ function App() {
   };
   const ListHeader = ({ children }: { children: ReactNode }) => {
     return (
-      <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
+      <Text fontWeight={"500"} fontSize={"lg"} mb={2}>
         {children}
       </Text>
     );
@@ -442,9 +441,10 @@ function App() {
         mb={4}
         shadow="base"
         borderWidth="1px"
-        alignSelf={{ base: 'center', lg: 'flex-start' }}
-        borderColor={useColorModeValue('gray.200', 'gray.500')}
-        borderRadius={'xl'}>
+        alignSelf={{ base: "center", lg: "flex-start" }}
+        borderColor={useColorModeValue("gray.200", "gray.500")}
+        borderRadius={"xl"}
+      >
         {children}
       </Box>
     );
@@ -465,17 +465,18 @@ function App() {
     iconBg: string;
     icon?: ReactElement;
   }
-  
+
   const Feature = ({ text, icon, iconBg }: FeatureProps) => {
     return (
-      <Stack direction={'row'} align={'center'}>
+      <Stack direction={"row"} align={"center"}>
         <Flex
           w={8}
           h={8}
-          align={'center'}
-          justify={'center'}
-          rounded={'full'}
-          bg={iconBg}>
+          align={"center"}
+          justify={"center"}
+          rounded={"full"}
+          bg={iconBg}
+        >
           {icon}
         </Flex>
         <Text fontWeight={600}>{text}</Text>
@@ -483,8 +484,8 @@ function App() {
     );
   };
   const Arrow = createIcon({
-    displayName: 'Arrow',
-    viewBox: '0 0 72 24',
+    displayName: "Arrow",
+    viewBox: "0 0 72 24",
     path: (
       <path
         fillRule="evenodd"
@@ -495,42 +496,48 @@ function App() {
     ),
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
 
   return (
-    
     <section className=" vh-100">
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={20} alignItems={'center'} justifyContent={'space-between'}>
+      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+        <Flex h={20} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
-            size={'md'}
+            size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={'Open Menu'}
-            display={{ md: 'none' }}
+            aria-label={"Open Menu"}
+            display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={4} alignItems={'center'}>
-          <Image  src="android-chrome-192x192.png"
-                alt="Logo" boxSize='70px'></Image>
-                <Text
-                as="b"
-                fontSize='2xl'
-            color="black">
-            Perma Books
-          </Text>
+          <HStack spacing={4} alignItems={"center"}>
+            <Image
+              src="android-chrome-192x192.png"
+              alt="Logo"
+              boxSize="70px"
+            ></Image>
+            <Text as="b" fontSize="2xl" color="black">
+              Perma Books
+            </Text>
             <HStack
-              as={'nav'}
+              as={"nav"}
               spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
-              <Link px={2} py={1} rounded={'md'} href={'#'}>Home</Link>
-              <Link px={2} py={1} rounded={'md'} href={'#'}>Features</Link>
-              <Link px={2} py={1} rounded={'md'} href={'#'}>Pricing</Link>
-              <Link px={2} py={1} rounded={'md'} href={'#'}>Contact</Link>
+              display={{ base: "none", md: "flex" }}
+            >
+              <Link px={2} py={1} rounded={"md"} href={"#"}>
+                Home
+              </Link>
+              <Link px={2} py={1} rounded={"md"} href={"#"}>
+                Features
+              </Link>
+              <Link px={2} py={1} rounded={"md"} href={"#"}>
+                Pricing
+              </Link>
+              <Link px={2} py={1} rounded={"md"} href={"#"}>
+                Contact
+              </Link>
             </HStack>
           </HStack>
-          <Flex alignItems={'center'}>
+          <Flex alignItems={"center"}>
             <Menu>
-              
               <MenuList>
                 <MenuItem>Link 1</MenuItem>
                 <MenuItem>Link 2</MenuItem>
@@ -542,534 +549,403 @@ function App() {
         </Flex>
 
         {isOpen ? (
-          <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
-            <Link px={2} py={1} rounded={'md'} href={'#'}>Home</Link>
-              <Link px={2} py={1} rounded={'md'} href={'#'}>Features</Link>
-              <Link px={2} py={1} rounded={'md'} href={'#'}>Pricing</Link>
-              <Link px={2} py={1} rounded={'md'} href={'#'}>Contact</Link>
+          <Box pb={4} display={{ md: "none" }}>
+            <Stack as={"nav"} spacing={4}>
+              <Link px={2} py={1} rounded={"md"} href={"#"}>
+                Home
+              </Link>
+              <Link px={2} py={1} rounded={"md"} href={"#"}>
+                Features
+              </Link>
+              <Link px={2} py={1} rounded={"md"} href={"#"}>
+                Pricing
+              </Link>
+              <Link px={2} py={1} rounded={"md"} href={"#"}>
+                Contact
+              </Link>
             </Stack>
           </Box>
         ) : null}
       </Box>
-     
-      
+
       <>
-      <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-
-      <Container maxW={'3xl'}>
-        <Stack
-          as={Box}
-          textAlign={'center'}
-          spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 36 }}>
-          <Heading
-            fontWeight={600}
-            fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
-            lineHeight={'110%'}>
-            Make money from <br />
-            <Text as={'span'} color={'green.400'}>
-              your audience
-            </Text>
-          </Heading>
-          <Text color={'gray.500'}>
-            Monetize your content by charging your most loyal readers and reward
-            them loyalty points. Give back to your loyal readers by granting
-            them access to your pre-releases and sneak-peaks.
-          </Text>
-          <Stack
-            direction={'column'}
-            spacing={3}
-            align={'center'}
-            alignSelf={'center'}
-            position={'relative'}>
-            <Button
-              colorScheme={'green'}
-              bg={'green.400'}
-              rounded={'full'}
-              px={6}
-              _hover={{
-                bg: 'green.500',
-              }}>
-              Get Started
-            </Button>
-            <Button variant={'link'} colorScheme={'blue'} size={'sm'}>
-              Learn more
-            </Button>
-            <Box>
-              <Icon
-                as={Arrow}
-                color={useColorModeValue('gray.800', 'gray.300')}
-                w={71}
-                position={'absolute'}
-                right={-71}
-                top={'10px'}
-              />
-              <Text
-                fontSize={'lg'}
-                fontFamily={'Caveat'}
-                position={'absolute'}
-                right={'-125px'}
-                top={'-15px'}
-                transform={'rotate(10deg)'}>
-                Starting at $15/mo
-              </Text>
-            </Box>
-          </Stack>
-        </Stack>
-      </Container>
-    </>
-
-
-      <Container id="feature" maxW={'5xl'} py={12}>
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-        <Stack spacing={4}>
-          <Text
-            textTransform={'uppercase'}
-            color={'blue.400'}
-            fontWeight={600}
-            fontSize={'sm'}
-            bg={useColorModeValue('blue.50', 'blue.900')}
-            p={2}
-            alignSelf={'flex-start'}
-            rounded={'md'}>
-            Features
-          </Text>
-          <Heading>Decentralized Literature Archival made simple.</Heading>
-          <Text color={'gray.500'} fontSize={'lg'}>
-            Archive any file permanently in remote nodes and retrieve them instantly
-          </Text>
-          <Stack
-            spacing={4}
-            divider={
-              <StackDivider
-                borderColor={useColorModeValue('gray.100', 'gray.700')}
-              />
-            }>
-            <Feature
-              icon={
-                <Icon as={IoAnalyticsSharp} color={'yellow.500'} w={5} h={5} />
-              }
-              iconBg={useColorModeValue('yellow.100', 'yellow.900')}
-              text={'Literature / Books'}
-            />
-            <Feature
-              icon={<Icon as={IoLogoBitcoin} color={'green.500'} w={5} h={5} />}
-              iconBg={useColorModeValue('green.100', 'green.900')}
-              text={'Important Documents'}
-            />
-            <Feature
-              icon={
-                <Icon as={IoSearchSharp} color={'purple.500'} w={5} h={5} />
-              }
-              iconBg={useColorModeValue('purple.100', 'purple.900')}
-              text={'Resource Materials'}
-            />
-          </Stack>
-        </Stack>
-        <Flex>
-          <Image
-            rounded={'md'}
-            alt={'feature image'}
-            src="features.jpg"
-            objectFit={'cover'}
+        <Head>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
+            rel="stylesheet"
           />
-        </Flex>
-      </SimpleGrid>
-    </Container>
+        </Head>
 
-
-      <Box pt={20}>
-      <VStack >
-        <HStack>
-          <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-              {toProperCase(currency)}
-            </MenuButton>
-            <MenuList>
-              {Object.keys(currencyMap).map((v) => {
-                return (
-                  <MenuItem
-                    key={v}
-                    onClick={() => {
-                      clean();
-                      setCurrency(v);
-                    }}
-                  >
-                    {toProperCase(v)}
-                  </MenuItem>
-                ); // proper/title case
-              })}
-            </MenuList>
-          </Menu>
-          <Menu>
-            <MenuButton
-              disabled={currency === defaultCurrency}
-              as={Button}
-              rightIcon={<ChevronDownIcon />}
+        <Container maxW={"3xl"}>
+          <Stack
+            as={Box}
+            textAlign={"center"}
+            spacing={{ base: 8, md: 14 }}
+            py={{ base: 20, md: 36 }}
+          >
+            <Heading
+              fontWeight={600}
+              fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+              lineHeight={"110%"}
             >
-              {selection}
-            </MenuButton>
-            <MenuList>
-              {Object.keys(providerMap).map((v) => {
-                return currencyMap[currency] &&
-                  currencyMap[currency].providers.indexOf(v) !== -1 ? (
-                  <MenuItem key={v} onClick={() => setSelection(v)}>
-                    {v}
-                  </MenuItem>
-                ) : undefined;
-              })}
-            </MenuList>
-          </Menu>
-          <Button
-            disabled={
-              !(
-                selection !== defaultSelection &&
-                currency !== defaultCurrency &&
-                bundlerHttpAddress.length > 8
-              )
-            }
-            onClick={async () => await initProvider()}
-          >
-            {provider ? "Disconnect" : "Connect"}
-          </Button>
-        </HStack>
-        <Text className="text-white">
-          Connected Account: {address ?? "None"}
-        </Text>
-        <HStack>
-          <Button
-            w={400}
-            disabled={!provider}
-            onClick={async () => await initBundlr()}
-          >
-            Connect to Bundlr
-          </Button>
-          <Input
-           color='grey'
-            value={bundlerHttpAddress}
-            onChange={updateAddress}
-            placeholder="Bundler Address"
-          />
-        </HStack>
-        {bundler && (
-          <>
-            <HStack>
-              <Button
-                onClick={async () => {
-                  address &&
-                    bundler!.getBalance(address).then((res: BigNumber) => {
-                      setBalance(res.toString());
-                    });
-                  await toggleRefresh();
-                }}
-              >
-                Get {toProperCase(currency)} Balance
-              </Button>
-              {balance && (
-                <Tooltip
-                  label={`(${balance} ${bundler.currencyConfig.base[0]})`}
-                >
-                  <Text className="text-white">
-                    {toProperCase(currency)} Balance:{" "}
-                    {bundler.utils
-                      .unitConverter(balance)
-                      .toFixed(7, 2)
-                      .toString()}{" "}
-                    {bundler.currencyConfig.ticker.toLowerCase()}
-                  </Text>
-                </Tooltip>
-              )}
-            </HStack>
-            <HStack>
-              <Button w={200} onClick={fund}>
-                Fund Bundlr
-              </Button>
-              <Input
-                placeholder={`${toProperCase(currency)} Amount`}
-                value={fundAmount}
-                onChange={updateFundAmount}
-              />
-            </HStack>
-            <HStack>
-              <Button w={200} onClick={withdraw}>
-                Withdraw Balance
-              </Button>
-              <Input
-                placeholder={`${toProperCase(currency)} Amount`}
-                value={withdrawAmount}
-                onChange={updateWithdrawAmount}
-              />
-            </HStack>
-            <Button onClick={handleFileClick}>Select file from Device</Button>
-            {img && (
-              <>
-                <HStack>
-                  <Button onClick={handlePrice}>Get Price</Button>
-                  {price && (
-                    <Text className="text-white">{`Cost: ${bundler.utils
-                      .unitConverter(price)
-                      .toString()} ${bundler.currencyConfig.ticker.toLowerCase()} `}</Text>
-                  )}
-                </HStack>
-                <Button onClick={uploadFile}>Upload to Bundlr Network</Button>
-              </>
-            )}
-          </>
-        )}
-      </VStack>
-      </Box>
-      <Box id="pricing" mt={80}>
-      <VStack spacing={2} textAlign="center">
-        <Heading as="h1" fontSize="4xl">
-          Plans that fit your need
-        </Heading>
-        <Text fontSize="lg" color={'gray.500'}>
-          Start with 14-day free trial. No credit card needed. Cancel at
-          anytime.
-        </Text>
-      </VStack>
-      <Stack
-        direction={{ base: 'column', md: 'row' }}
-        textAlign="center"
-        justify="center"
-        spacing={{ base: 4, lg: 10 }}
-        py={10}>
-        <PriceWrapper>
-          <Box py={4} px={12}>
-            <Text fontWeight="500" fontSize="2xl">
-              Hobby
+              Store Literature <br />
+              <Text as={"span"} color={"red.400"}>
+                on the PermaWeb
+              </Text>
+            </Heading>
+            <Text color={"gray.500"}>
+              Perma-books is a dApp that provides{" "}
+              <strong>permanent decentralized archival solution</strong> for
+              publications, compositions, and literature. This platform is a
+              simple and effective way to store data forever on-chain without
+              paying incentives on a regular basis!
             </Text>
-            <HStack justifyContent="center">
-              <Text fontSize="3xl" fontWeight="600">
-                $
-              </Text>
-              <Text fontSize="5xl" fontWeight="900">
-                79
-              </Text>
-              <Text fontSize="3xl" color="gray.500">
-                /month
-              </Text>
-            </HStack>
-          </Box>
-          <VStack
-            bg={useColorModeValue('gray.50', 'gray.700')}
-            py={4}
-            borderBottomRadius={'xl'}>
-            <List spacing={3} textAlign="start" px={12}>
-              <ListItem>
-                <ListIcon as={FaCheckCircle} color="green.500" />
-                unlimited build minutes
-              </ListItem>
-              <ListItem>
-                <ListIcon as={FaCheckCircle} color="green.500" />
-                Lorem, ipsum dolor.
-              </ListItem>
-              <ListItem>
-                <ListIcon as={FaCheckCircle} color="green.500" />
-                5TB Lorem, ipsum dolor.
-              </ListItem>
-            </List>
-            <Box w="80%" pt={7}>
-              <Button w="full" colorScheme="red" variant="outline">
-                Start trial
-              </Button>
-            </Box>
-          </VStack>
-        </PriceWrapper>
-
-        <PriceWrapper>
-          <Box position="relative">
-            <Box
-              position="absolute"
-              top="-16px"
-              left="50%"
-              style={{ transform: 'translate(-50%)' }}>
-              <Text
-                textTransform="uppercase"
-                bg={useColorModeValue('red.300', 'red.700')}
-                px={3}
-                py={1}
-                color={useColorModeValue('gray.900', 'gray.300')}
-                fontSize="sm"
-                fontWeight="600"
-                rounded="xl">
-                Most Popular
-              </Text>
-            </Box>
-            <Box py={4} px={12}>
-              <Text fontWeight="500" fontSize="2xl">
-                Growth
-              </Text>
-              <HStack justifyContent="center">
-                <Text fontSize="3xl" fontWeight="600">
-                  $
-                </Text>
-                <Text fontSize="5xl" fontWeight="900">
-                  149
-                </Text>
-                <Text fontSize="3xl" color="gray.500">
-                  /month
-                </Text>
-              </HStack>
-            </Box>
-            <VStack
-              bg={useColorModeValue('gray.50', 'gray.700')}
-              py={4}
-              borderBottomRadius={'xl'}>
-              <List spacing={3} textAlign="start" px={12}>
-                <ListItem>
-                  <ListIcon as={FaCheckCircle} color="green.500" />
-                  unlimited build minutes
-                </ListItem>
-                <ListItem>
-                  <ListIcon as={FaCheckCircle} color="green.500" />
-                  Lorem, ipsum dolor.
-                </ListItem>
-                <ListItem>
-                  <ListIcon as={FaCheckCircle} color="green.500" />
-                  5TB Lorem, ipsum dolor.
-                </ListItem>
-                <ListItem>
-                  <ListIcon as={FaCheckCircle} color="green.500" />
-                  5TB Lorem, ipsum dolor.
-                </ListItem>
-                <ListItem>
-                  <ListIcon as={FaCheckCircle} color="green.500" />
-                  5TB Lorem, ipsum dolor.
-                </ListItem>
-              </List>
-              <Box w="80%" pt={7}>
-                <Button w="full" colorScheme="red">
-                  Start trial
-                </Button>
-              </Box>
-            </VStack>
-          </Box>
-        </PriceWrapper>
-        <PriceWrapper>
-          <Box py={4} px={12}>
-            <Text fontWeight="500" fontSize="2xl">
-              Scale
-            </Text>
-            <HStack justifyContent="center">
-              <Text fontSize="3xl" fontWeight="600">
-                $
-              </Text>
-              <Text fontSize="5xl" fontWeight="900">
-                349
-              </Text>
-              <Text fontSize="3xl" color="gray.500">
-                /month
-              </Text>
-            </HStack>
-          </Box>
-          <VStack
-            bg={useColorModeValue('gray.50', 'gray.700')}
-            py={4}
-            borderBottomRadius={'xl'}>
-            <List spacing={3} textAlign="start" px={12}>
-              <ListItem>
-                <ListIcon as={FaCheckCircle} color="green.500" />
-                unlimited build minutes
-              </ListItem>
-              <ListItem>
-                <ListIcon as={FaCheckCircle} color="green.500" />
-                Lorem, ipsum dolor.
-              </ListItem>
-              <ListItem>
-                <ListIcon as={FaCheckCircle} color="green.500" />
-                5TB Lorem, ipsum dolor.
-              </ListItem>
-            </List>
-            <Box w="80%" pt={7}>
-              <Button w="full" colorScheme="red" variant="outline">
-                Start trial
-              </Button>
-            </Box>
-          </VStack>
-        </PriceWrapper>
-      </Stack>
-    </Box>
-      <Box mt={10}
-      id="contact"
-      bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}>
-      <Container as={Stack} maxW={'6xl'} py={10}>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
-          <Stack align={'flex-start'}>
-            <ListHeader>Product</ListHeader>
-            <Link href={'#'}>Overview</Link>
-            <Stack direction={'row'} align={'center'} spacing={2}>
-              <Link href={'#'}>Features</Link>
-              <Tag
-                size={'sm'}
-                bg={useColorModeValue('green.300', 'green.800')}
-                ml={2}
-                color={'white'}>
-                New
-              </Tag>
+            <Stack
+              direction={"column"}
+              spacing={3}
+              align={"center"}
+              alignSelf={"center"}
+              position={"relative"}
+            >
+              <UploadModal>
+                <Box pt={20}>
+                  <VStack>
+                    <HStack>
+                      <Menu>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                          {toProperCase(currency)}
+                        </MenuButton>
+                        <MenuList>
+                          {Object.keys(currencyMap).map((v) => {
+                            return (
+                              <MenuItem
+                                key={v}
+                                onClick={() => {
+                                  clean();
+                                  setCurrency(v);
+                                }}
+                              >
+                                {toProperCase(v)}
+                              </MenuItem>
+                            ); // proper/title case
+                          })}
+                        </MenuList>
+                      </Menu>
+                      <Menu>
+                        <MenuButton
+                          disabled={currency === defaultCurrency}
+                          as={Button}
+                          rightIcon={<ChevronDownIcon />}
+                        >
+                          {selection}
+                        </MenuButton>
+                        <MenuList>
+                          {Object.keys(providerMap).map((v) => {
+                            return currencyMap[currency] &&
+                              currencyMap[currency].providers.indexOf(v) !==
+                                -1 ? (
+                              <MenuItem key={v} onClick={() => setSelection(v)}>
+                                {v}
+                              </MenuItem>
+                            ) : undefined;
+                          })}
+                        </MenuList>
+                      </Menu>
+                      <Button
+                        disabled={
+                          !(
+                            selection !== defaultSelection &&
+                            currency !== defaultCurrency &&
+                            bundlerHttpAddress.length > 8
+                          )
+                        }
+                        onClick={async () => await initProvider()}
+                      >
+                        {provider ? "Disconnect" : "Connect"}
+                      </Button>
+                    </HStack>
+                    <Text>Connected Account: {address ?? "None"}</Text>
+                    <HStack>
+                      <Button
+                        w={400}
+                        disabled={!provider}
+                        onClick={async () => await initBundlr()}
+                      >
+                        Connect to Bundlr
+                      </Button>
+                      <Input
+                        color="grey"
+                        value={bundlerHttpAddress}
+                        onChange={updateAddress}
+                        placeholder="Bundler Address"
+                      />
+                    </HStack>
+                    {bundler && (
+                      <>
+                        <HStack>
+                          <Button
+                            onClick={async () => {
+                              address &&
+                                bundler!
+                                  .getBalance(address)
+                                  .then((res: BigNumber) => {
+                                    setBalance(res.toString());
+                                  });
+                              await toggleRefresh();
+                            }}
+                          >
+                            Get {toProperCase(currency)} Balance
+                          </Button>
+                          {balance && (
+                            <Tooltip
+                              label={`(${balance} ${bundler.currencyConfig.base[0]})`}
+                            >
+                              <Text>
+                                {toProperCase(currency)} Balance:{" "}
+                                {bundler.utils
+                                  .unitConverter(balance)
+                                  .toFixed(7, 2)
+                                  .toString()}{" "}
+                                {bundler.currencyConfig.ticker.toLowerCase()}
+                              </Text>
+                            </Tooltip>
+                          )}
+                        </HStack>
+                        <HStack>
+                          <Button w={200} onClick={fund}>
+                            Fund Bundlr
+                          </Button>
+                          <Input
+                            placeholder={`${toProperCase(currency)} Amount`}
+                            value={fundAmount}
+                            onChange={updateFundAmount}
+                          />
+                        </HStack>
+                        <HStack>
+                          <Button w={200} onClick={withdraw}>
+                            Withdraw Balance
+                          </Button>
+                          <Input
+                            placeholder={`${toProperCase(currency)} Amount`}
+                            value={withdrawAmount}
+                            onChange={updateWithdrawAmount}
+                          />
+                        </HStack>
+                        <Button onClick={handleFileClick}>
+                          Select file from Device
+                        </Button>
+                        {img && (
+                          <>
+                            <HStack>
+                              <Button onClick={handlePrice}>Get Price</Button>
+                              {price && (
+                                <Text>{`Cost: ${bundler.utils
+                                  .unitConverter(price)
+                                  .toString()} ${bundler.currencyConfig.ticker.toLowerCase()} `}</Text>
+                              )}
+                            </HStack>
+                            <Button onClick={uploadFile}>
+                              Upload to Bundlr Network
+                            </Button>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </VStack>
+                </Box>
+              </UploadModal>
             </Stack>
-            <Link href={'#'}>Tutorials</Link>
-            <Link href={'#'}>Pricing</Link>
-            <Link href={'#'}>Releases</Link>
           </Stack>
-          <Stack align={'flex-start'}>
-            <ListHeader>Company</ListHeader>
-            <Link href={'#'}>About Us</Link>
-            <Link href={'#'}>Press</Link>
-            <Link href={'#'}>Careers</Link>
-            <Link href={'#'}>Contact Us</Link>
-            <Link href={'#'}>Partners</Link>
+        </Container>
+      </>
+
+      <Container id="feature" maxW={"5xl"} py={12}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+          <Stack spacing={4}>
+            <Text
+              textTransform={"uppercase"}
+              color={"blue.400"}
+              fontWeight={600}
+              fontSize={"sm"}
+              bg={useColorModeValue("blue.50", "blue.900")}
+              p={2}
+              alignSelf={"flex-start"}
+              rounded={"md"}
+            >
+              Features
+            </Text>
+            <Heading>Decentralized Literature Archival made simple.</Heading>
+            <Text color={"gray.500"} fontSize={"lg"}>
+              Archive any file permanently in remote nodes and retrieve them
+              instantly
+            </Text>
+            <Stack
+              spacing={4}
+              divider={
+                <StackDivider
+                  borderColor={useColorModeValue("gray.100", "gray.700")}
+                />
+              }
+            >
+              <Feature
+                icon={
+                  <Icon
+                    as={IoAnalyticsSharp}
+                    color={"yellow.500"}
+                    w={5}
+                    h={5}
+                  />
+                }
+                iconBg={useColorModeValue("yellow.100", "yellow.900")}
+                text={"Literature / Books"}
+              />
+              <Feature
+                icon={
+                  <Icon as={IoLogoBitcoin} color={"green.500"} w={5} h={5} />
+                }
+                iconBg={useColorModeValue("green.100", "green.900")}
+                text={"Important Documents"}
+              />
+              <Feature
+                icon={
+                  <Icon as={IoSearchSharp} color={"purple.500"} w={5} h={5} />
+                }
+                iconBg={useColorModeValue("purple.100", "purple.900")}
+                text={"Resource Materials"}
+              />
+            </Stack>
           </Stack>
-          <Stack align={'flex-start'}>
-            <ListHeader>Legal</ListHeader>
-            <Link href={'#'}>Cookies Policy</Link>
-            <Link href={'#'}>Privacy Policy</Link>
-            <Link href={'#'}>Terms of Service</Link>
-            <Link href={'#'}>Law Enforcement</Link>
-            <Link href={'#'}>Status</Link>
-          </Stack>
-          <Stack align={'flex-start'}>
-            <ListHeader>Follow Us</ListHeader>
-            <Link href={'#'}>Facebook</Link>
-            <Link href={'#'}>Twitter</Link>
-            <Link href={'#'}>Dribbble</Link>
-            <Link href={'#'}>Instagram</Link>
-            <Link href={'#'}>LinkedIn</Link>
+          <Flex>
+            <Image
+              rounded={"md"}
+              alt={"feature image"}
+              src="giphy.gif"
+              objectFit={"cover"}
+            />
+          </Flex>
+        </SimpleGrid>
+      </Container>
+
+      <Container id="feature" maxW={"5xl"} py={12}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+          <Flex>
+            <Image
+              rounded={"md"}
+              alt={"feature image"}
+              src="giphy (1).gif"
+              objectFit={"cover"}
+            />
+          </Flex>
+          <Stack spacing={4}>
+            <Text
+              textTransform={"uppercase"}
+              color={"blue.400"}
+              fontWeight={600}
+              fontSize={"sm"}
+              bg={useColorModeValue("blue.50", "blue.900")}
+              p={2}
+              alignSelf={"flex-start"}
+              rounded={"md"}
+            >
+              How to Use
+            </Text>
+            <Heading>Using Decentralized Literature Archive</Heading>
+            <Text color={"gray.500"} fontSize={"lg"}>
+              Perma-books provides a user-friendly UI experience to store data
+              directly hassle-free. First, the user connects his polygon wallet
+              to the website and then he connects his account to any one of the
+              public bundlr networks. After connecting, One can easily upload
+              any files from his computer and bundle them instantly once the
+              transaction is signed. It may take a few minutes to deploy it on
+              the chain. As soon as the files are deployed we receive the
+              transaction ID, through which we can directly access the data via
+              www.arweave.net/TX_ID
+            </Text>
           </Stack>
         </SimpleGrid>
       </Container>
-      <Box py={10}>
-        <Flex
-          align={'center'}
-          _before={{
-            content: '""',
-            borderBottom: '1px solid',
-            borderColor: useColorModeValue('gray.200', 'gray.700'),
-            flexGrow: 1,
-            mr: 8,
-          }}
-          _after={{
-            content: '""',
-            borderBottom: '1px solid',
-            borderColor: useColorModeValue('gray.200', 'gray.700'),
-            flexGrow: 1,
-            ml: 8,
-          }}>
-          <Image  src="android-chrome-192x192.png"
-                alt="Logo" boxSize='100px'></Image>
-        </Flex>
-        <Text pt={6} fontSize={'sm'} textAlign={'center'}>
-          © 2022 Perma Books. All rights reserved
-        </Text>
+
+      <Box
+        mt={10}
+        id="contact"
+        bg={useColorModeValue("gray.50", "gray.900")}
+        color={useColorModeValue("gray.700", "gray.200")}
+      >
+        <Container as={Stack} maxW={"6xl"} py={10}>
+          <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
+            {/* <Stack align={"flex-start"}>
+              <ListHeader>Product</ListHeader>
+              <Link href={"#"}>Overview</Link>
+              <Stack direction={"row"} align={"center"} spacing={2}>
+                <Link href={"#"}>Features</Link>
+                <Tag
+                  size={"sm"}
+                  bg={useColorModeValue("green.300", "green.800")}
+                  ml={2}
+                  color={"white"}
+                >
+                  New
+                </Tag>
+              </Stack>
+              <Link href={"#"}>Tutorials</Link>
+              <Link href={"#"}>Pricing</Link>
+              <Link href={"#"}>Releases</Link>
+            </Stack>
+            <Stack align={"flex-start"}>
+              <ListHeader>Company</ListHeader>
+              <Link href={"#"}>About Us</Link>
+              <Link href={"#"}>Press</Link>
+              <Link href={"#"}>Careers</Link>
+              <Link href={"#"}>Contact Us</Link>
+              <Link href={"#"}>Partners</Link>
+            </Stack>
+            <Stack align={"flex-start"}>
+              <ListHeader>Legal</ListHeader>
+              <Link href={"#"}>Cookies Policy</Link>
+              <Link href={"#"}>Privacy Policy</Link>
+              <Link href={"#"}>Terms of Service</Link>
+              <Link href={"#"}>Law Enforcement</Link>
+              <Link href={"#"}>Status</Link>
+            </Stack>
+            <Stack align={"flex-start"}>
+              <ListHeader>Follow Us</ListHeader>
+              <Link href={"#"}>Facebook</Link>
+              <Link href={"#"}>Twitter</Link>
+              <Link href={"#"}>Dribbble</Link>
+              <Link href={"#"}>Instagram</Link>
+              <Link href={"#"}>LinkedIn</Link>
+            </Stack> */}
+          </SimpleGrid>
+        </Container>
+        <Box py={10}>
+          <Flex
+            align={"center"}
+            _before={{
+              content: '""',
+              borderBottom: "1px solid",
+              borderColor: useColorModeValue("gray.200", "gray.700"),
+              flexGrow: 1,
+              mr: 8,
+            }}
+            _after={{
+              content: '""',
+              borderBottom: "1px solid",
+              borderColor: useColorModeValue("gray.200", "gray.700"),
+              flexGrow: 1,
+              ml: 8,
+            }}
+          >
+            <Image
+              src="android-chrome-192x192.png"
+              alt="Logo"
+              boxSize="100px"
+            ></Image>
+          </Flex>
+          <Text pt={6} fontSize={"sm"} textAlign={"center"}>
+            © 2022 Perma Books. All rights reserved
+          </Text>
+        </Box>
       </Box>
-    </Box>
     </section>
   );
 }
