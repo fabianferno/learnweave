@@ -2,7 +2,6 @@
 
 <img src="https://raw.githubusercontent.com/fabianferno/perma-books/main/ezgif.com-gif-maker.gif" width="100%" />
 
-#Perma-books
 Perma-books is a dApp that provides **permanent decentralized archival solution** for publications, compositions, and literature. This platform is a simple and effective way to store data forever on-chain without paying incentives on a regular basis!
 
 ## Inspiration
@@ -25,6 +24,6 @@ _Perma-books_ has the potential to rapidly advance as our team of engineers alwa
 
 Finally, we'd like to thank the developers of Arweave who provided instant support when we faced problems. The amazing documentation of Arweave and bundlr helped us to work on our project with ease. It was a wonderful development experience as we look forward to integrating many of our blockchain applications using Arweave because of its versatility and flexibility to be able to work with multiple chains.
 
-Built by
-@fabianferno
-@gabrielantonyxaviour
+Developed with ❤️ by
+- @fabianferno
+- @gabrielantonyxaviour
